@@ -1,7 +1,7 @@
 package elements;
 import java.awt.Color;
 import java.awt.Font;
-//import java.awt.Color;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -13,6 +13,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -61,6 +63,18 @@ public class Fase extends JPanel implements ActionListener, MouseListener {
     public void inicializaExplosoes() {
 		explosoes = new ArrayList<Explosao>();
 	}
+
+    public Font carregarFonte() {
+        try {
+            // Ajuste o caminho conforme a estrutura real do seu projeto
+            File fontFile = new File("C:\\Users\\world\\Desktop\\Arquivos Acadêmicos\\Programação\\Programas\\Java\\Trabalhos\\Cosmic Odyssey - Jogo 2D (My)\\res\\Fontes\\Minecraft.ttf");
+            return Font.createFont(Font.TRUETYPE_FONT, fontFile).deriveFont(1, 18);
+        } catch (IOException | FontFormatException e) {
+            e.printStackTrace();
+            // Lida com exceções, por exemplo, carregando uma fonte padrão
+            return new Font("Arial", Font.PLAIN, 18);
+        }
+    }
 
     public void inicializaInimigos()
     {
@@ -159,6 +173,9 @@ public class Fase extends JPanel implements ActionListener, MouseListener {
         //Score
         graficos.setColor(Color.white);
 		g.setFont(new Font("Minecraft", 1, 18));
+
+        Font minecraftFont = carregarFonte();
+        graficos.setFont(minecraftFont);
 		
         String scoreText = "SCORE: " + player1.getScore();
         int textWidth = graficos.getFontMetrics().stringWidth(scoreText);
