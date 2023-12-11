@@ -20,11 +20,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Fase extends JPanel implements ActionListener {
+public class FaseSingle extends JPanel implements ActionListener {
 
     private Image fundo;
     private Player player1;
-    private Player player2;
     private Timer timer;
     private ArrayList<InimigoComum> inimigosComuns;
     private ArrayList<InimigoAtirador> inimigosAtiradores;
@@ -34,10 +33,10 @@ public class Fase extends JPanel implements ActionListener {
     private boolean emJogo, emExplosao, youWin;
     private int powerUpVida = 0;
     private Font minecraftFont;
-    private static int numeroInimigos = 50;
+    private static int numeroInimigos = 40;
 
     // Construtor da classe Fase com a referência da tela de fundo.
-    public Fase(String ref) {
+    public FaseSingle(String ref) {
         setFocusable(true);
         setDoubleBuffered(true);
         emJogo = true;
@@ -47,7 +46,6 @@ public class Fase extends JPanel implements ActionListener {
         fundo = referencia.getImage();
 
         player1 = new Player(1);
-        player2 = new Player(2);
 
         powerUpVida = 0;
         vidas = new ArrayList<Vida>();
@@ -115,15 +113,9 @@ public class Fase extends JPanel implements ActionListener {
 
     public void arrayShot(Graphics g){
         ArrayList<Tiro> tiros = player1.getTiros();
-        ArrayList<Tiro> tiros2 = player2.getTiros();
         Graphics2D graficos = (Graphics2D) g;
         for (int i = 0; i < tiros.size(); i++) {
             Tiro t = tiros.get(i);
-            graficos.drawImage(t.getImagem(), t.getX(), t.getY(), this);
-        }
-
-        for (int i = 0; i < tiros2.size(); i++) {
-            Tiro t = tiros2.get(i);
             graficos.drawImage(t.getImagem(), t.getX(), t.getY(), this);
         }
     }
@@ -139,7 +131,7 @@ public class Fase extends JPanel implements ActionListener {
             minecraftFont = minecraftFont.deriveFont(Font.PLAIN, 25);
             graficos.setFont(minecraftFont);
 
-            int scoreTotal = player1.getScore() + player2.getScore();
+            int scoreTotal = player1.getScore();
 
             String scoreText = "SCORE: " + scoreTotal;
             int textWidth = graficos.getFontMetrics().stringWidth(scoreText);
@@ -158,9 +150,6 @@ public class Fase extends JPanel implements ActionListener {
 
                 if (player1.isVisible())
                     graficos.drawImage(player1.getImagem(), player1.getX(), player1.getY(), this);
-
-                if (player2.isVisible())
-                    graficos.drawImage(player2.getImagem(), player2.getX(), player2.getY(), this);
 
                 arrayShot(g);
 
@@ -213,10 +202,8 @@ public class Fase extends JPanel implements ActionListener {
                 graficos.setFont(minecraftFont);
 
                 String p1 = "P1:";
-                String p2 = "P2:";
 
                 graficos.drawString(p1, 11, 30);
-                graficos.drawString(p2, 11, 60);
 
                 int x1 = 40;
                 for (int j = 0; j < player1.getVida(); j++) {
@@ -225,12 +212,6 @@ public class Fase extends JPanel implements ActionListener {
                     x1 += 30;
                 }
 
-                int x2 = 40;
-                for (int j = 0; j < player2.getVida(); j++) {
-                    ImageIcon vida = new ImageIcon(getClass().getClassLoader().getResource("res/Vida.png"));
-                    graficos.drawImage(vida.getImage(), x2, 40, null);
-                    x2 += 30;
-                }
                 /////////////////////////////////////////////////////////////////////////////////////
 
                 //Chefao e seus tiros
@@ -284,7 +265,7 @@ public class Fase extends JPanel implements ActionListener {
                 minecraftFont = minecraftFont.deriveFont(Font.BOLD, 18);
                 graficos.setFont(minecraftFont);
 
-                int scoreTotal = player1.getScore() + player2.getScore();
+                int scoreTotal = player1.getScore();
 
                 String scoreText = "SCORE: " + scoreTotal;
                 int textWidth = graficos.getFontMetrics().stringWidth(scoreText);
@@ -305,7 +286,7 @@ public class Fase extends JPanel implements ActionListener {
                 minecraftFont = minecraftFont.deriveFont(Font.PLAIN, 25);
                 graficos.setFont(minecraftFont);
 
-                int scoreTotal = player1.getScore() + player2.getScore();
+                int scoreTotal = player1.getScore();
 
                 String scoreText = "SCORE: " + scoreTotal;
                 int textWidth = graficos.getFontMetrics().stringWidth(scoreText);
@@ -326,13 +307,12 @@ public class Fase extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if(!player1.isVisible() && !player2.isVisible())
+        if(!player1.isVisible())
             emJogo = false;
 
         if(emJogo) {
 
             ArrayList<Tiro> tiros = player1.getTiros();
-            ArrayList<Tiro> tiros2 = player2.getTiros();
 
             if (player1.isVisible())
                 player1.update();
@@ -340,14 +320,6 @@ public class Fase extends JPanel implements ActionListener {
             {
                 player1.setExplodido(true);
                 explosoes.add(new Explosao(player1.getX(), player1.getY()));
-            }
-
-            if (player2.isVisible())
-                player2.update();
-            else if(!player2.getExplodido())
-            {
-                player2.setExplodido(true);
-                explosoes.add(new Explosao(player2.getX(), player2.getY()));
             }
 
             for (int i = 0; i < tiros.size(); i++) {
@@ -358,16 +330,6 @@ public class Fase extends JPanel implements ActionListener {
                     i--;
                 }
             }
-
-            for (int i = 0; i < tiros2.size(); i++) {
-                if (tiros2.get(i).isVisible()) {
-                    tiros2.get(i).update();
-                } else {
-                    tiros2.remove(i);
-                    i--;
-                }
-            }
-
 
             for (int i = 0; i < inimigosComuns.size(); i++) {
                 InimigoComum in = inimigosComuns.get(i);
@@ -443,114 +405,23 @@ public class Fase extends JPanel implements ActionListener {
                 }
             }
 
-            if(player1.getVida() == player2.getVida()) {
-                if (chefao.isVisivel()) {
-                    chefao.update();
-                    if (chefao.getTiroBoss().isEmpty()) {
-                        chefao.tiroBoss();
-                        chefao.tiroBoss();
-                    }
-                }
-            }
-            else if(player1.getVida() < player2.getVida()){
-                if(!player1.isVisible()) {
-                    if (chefao.isVisivel()) {
-                        chefao.update(player2.getX(), player2.getY());
-                        if (chefao.getTiroBoss().isEmpty()) {
-                            chefao.tiroBoss();
-                            chefao.tiroBoss();
-                        }
-                    }
-                }
-                else{
-                    if (chefao.isVisivel()) {
-                        chefao.update(player1.getX(), player1.getY());
-                        if (chefao.getTiroBoss().isEmpty()) {
-                            chefao.tiroBoss();
-                            chefao.tiroBoss();
-                        }
-                    }
-                }
-            }
-            else{
-                if(!player2.isVisible()) {
-                    if (chefao.isVisivel()) {
-                        chefao.update(player1.getX(), player1.getY());
-                        if (chefao.getTiroBoss().isEmpty()) {
-                            chefao.tiroBoss();
-                            chefao.tiroBoss();
-                        }
-                    }
-                }
-                else{
-                    if (chefao.isVisivel()) {
-                        chefao.update(player2.getX(), player2.getY());
-                        if (chefao.getTiroBoss().isEmpty()) {
-                            chefao.tiroBoss();
-                            chefao.tiroBoss();
-                        }
-                    }
+            if (chefao.isVisivel()) {
+                chefao.update(player1.getX(), player1.getY());
+                if (chefao.getTiroBoss().isEmpty()) {
+                    chefao.tiroBoss();
                 }
             }
 
             List<TiroChefao> tiroBoss = chefao.getTiroBoss();
 
             if(!tiroBoss.isEmpty()) {
-                TiroChefao tempTiro1 = tiroBoss.get(0);
+                TiroChefao tempTiro = tiroBoss.get(0);
 
-                if (player1.isVisible() && player2.isVisible()) {
-                    if (tempTiro1 != null) {
-                        if (tempTiro1.isVisivel()) {
-                            tempTiro1.update(player1.getX(), player1.getY());
-                        } else
-                            tiroBoss.remove(0);
-                    }
-
-                    if (tiroBoss.size() == 2) {
-                        TiroChefao tempTiro2 = tiroBoss.get(1);
-                        if (tempTiro2 != null) {
-                            if (tempTiro2.isVisivel()) {
-                                tempTiro2.update(player2.getX(), player2.getY());
-                            } else
-                                tiroBoss.remove(1);
-                        }
-                    }
-                } else if (player1.isVisible()) {
-                    if (tempTiro1 != null) {
-                        if (tempTiro1.isVisivel()) {
-                            tempTiro1.update(player1.getX(), player1.getY());
-                        } else
-                            tiroBoss.remove(0);
-                    }
-
-                    if (tiroBoss.size() == 2) {
-                        TiroChefao tempTiro2 = tiroBoss.get(1);
-                        if (tempTiro2 != null) {
-                            if (tempTiro2.isVisivel()) {
-                                tempTiro2.update(player1.getX(), player1.getY());
-                            } else
-                                tiroBoss.remove(1);
-                        }
-                    }
-
-                }
-                else{
-                    if (tempTiro1 != null) {
-                        if (tempTiro1.isVisivel()) {
-                            tempTiro1.update(player2.getX(), player2.getY());
-                        } else
-                            tiroBoss.remove(0);
-                    }
-
-                    if (tiroBoss.size() == 2) {
-                        TiroChefao tempTiro2 = tiroBoss.get(1);
-                        if (tempTiro2 != null) {
-                            if (tempTiro2.isVisivel()) {
-                                tempTiro2.update(player2.getX(), player2.getY());
-                            } else
-                                tiroBoss.remove(1);
-                        }
-                    }
+                if (tempTiro != null) {
+                    if (tempTiro.isVisivel()) {
+                        tempTiro.update(player1.getX(), player1.getY());
+                    } else
+                        tiroBoss.remove(0);
                 }
             }
 
@@ -563,7 +434,6 @@ public class Fase extends JPanel implements ActionListener {
     public void collisions()
     {
         Rectangle formaNave = player1.getBounds();
-        Rectangle formaNave2 = player2.getBounds();
         Rectangle formaInimigo1;
         Rectangle formaInimigo2;
         Rectangle formaTiroInimigo;
@@ -589,26 +459,6 @@ public class Fase extends JPanel implements ActionListener {
                         player1.setVida(a - 1);
                         inimigosComuns.get(i).setVisible(false);
                         break;
-                    }
-                }
-            }
-        }
-
-        if(player2.isVisible()) {
-            for (int i = 0; i < inimigosComuns.size(); i++) {
-                formaInimigo1 = inimigosComuns.get(i).getBounds();
-
-                if (formaNave2.intersects(formaInimigo1)) {
-                    player2.somarScore();
-
-                    int a = player2.getVida();
-
-                    if (a == 0) {
-                        player2.setVisible(false);
-                        break;
-                    } else {
-                        player2.setVida(a - 1);
-                        inimigosComuns.get(i).setVisible(false);
                     }
                 }
             }
@@ -652,43 +502,6 @@ public class Fase extends JPanel implements ActionListener {
             }
         }
 
-        if(player2.isVisible()) {
-            for (int i = 0; i < inimigosAtiradores.size(); i++) {
-                formaInimigo2 = inimigosAtiradores.get(i).getBounds();
-                InimigoAtirador tempInimigo2 = inimigosAtiradores.get(i);
-                int a = player2.getVida();
-
-                if (formaNave2.intersects(formaInimigo2)) {
-                    player2.somarScore();
-
-                    if (a == 0) {
-                        player2.setVisible(false);
-                        break;
-                    } else {
-                        player2.setVida(a - 1);
-                        tempInimigo2.setVisible(false);
-                    }
-                }
-
-                ArrayList<TiroInimigo> tirosInimigo = tempInimigo2.getTirosInimigo();
-
-                for (int j = 0; j < tirosInimigo.size(); j++) {
-                    TiroInimigo tempTiroInimigo = tirosInimigo.get(j);
-                    formaTiroInimigo = tempTiroInimigo.getBounds();
-
-                    if (formaNave2.intersects(formaTiroInimigo)) {
-                        if (a == 0) {
-                            player2.setVisible(false);
-                            break;
-                        } else {
-                            player2.setVida(a - 1);
-                            tempTiroInimigo.setVisible(false);
-                        }
-                    }
-                }
-            }
-        }
-
         //Chefao & Seus Tiros, player1 e player2
         Chefao tempchefao = chefao;
         formaChefao = tempchefao.getBounds();
@@ -698,15 +511,6 @@ public class Fase extends JPanel implements ActionListener {
                 player1.setVida(player1.getVida() - 1);
                 if (player1.getVida() < 0) {
                     player1.setVisible(false);
-                }
-            }
-        }
-
-        if(player2.isVisible()) {
-            if (formaNave2.intersects(formaChefao)) {
-                player2.setVida(player2.getVida() - 1);
-                if (player2.getVida() < 0) {
-                    player2.setVisible(false);
                 }
             }
         }
@@ -733,25 +537,10 @@ public class Fase extends JPanel implements ActionListener {
                 }
             }
 
-            if(player2.isVisible()) {
-                if (formaNave2.intersects(formaTiroChefao)) {
-                    if (player2.getVida() == 0) {
-                        player2.setVisible(false);
-                        break;
-                    } else if (player2.getVida() < 2) {
-                        player2.setVida(0);
-                        tempTiroChefao.setVisivel(false);
-                    } else {
-                        player2.setVida(player2.getVida() - 2);
-                        tempTiroChefao.setVisivel(false);
-                    }
-                }
-            }
         }
 
         // Tiro player e Inimigos
         List<Tiro> tiros = player1.getTiros();
-        List<Tiro> tiros2 = player2.getTiros();
 
         for (int i = 0; i < tiros.size(); i++) {
             Tiro temptiro = tiros.get(i);
@@ -807,60 +596,6 @@ public class Fase extends JPanel implements ActionListener {
             }
         }
 
-        for (int i = 0; i < tiros2.size(); i++) {
-            Tiro temptiro = tiros2.get(i);
-            formaTiro2 = temptiro.getBounds();
-
-            for (int j = 0; j < inimigosComuns.size(); j++) {
-                InimigoComum tempRedUfo = inimigosComuns.get(j);
-                formaInimigo1 = tempRedUfo.getBounds();
-
-                if (formaTiro2.intersects(formaInimigo1)) {
-                    player1.somarScore();
-                    tempRedUfo.setVisible(false);
-                    temptiro.setVisible(false);
-                    break;
-                }
-
-            }
-
-            for (int j = 0; j < inimigosAtiradores.size(); j++) {
-                InimigoAtirador tempGreenFire = inimigosAtiradores.get(j);
-                formaInimigo2 = tempGreenFire.getBounds();
-
-                if (formaTiro2.intersects(formaInimigo2)) {
-                    player1.somarScore();
-                    tempGreenFire.setVisible(false);
-                    temptiro.setVisible(false);
-                    break;
-                }
-
-            }
-
-            if (formaTiro2.intersects(formaChefao)) {
-                chefao.setHit(true);
-                int a = tempchefao.getVida();
-                if (a < 120) {
-                    temptiro.setVisible(false);
-                    tempchefao.setVida(a + 1);
-                }
-                if (a > 119) {
-                    tempchefao.setVisivel(false);
-                    temptiro.setVisible(false);
-                    youWin = true;
-                }
-            }
-
-            for(int j=0 ; j<tirosChefao.size() ; j++) {
-
-                if (formaTiro2.intersects(tirosChefao.get(j).getBounds()))
-                {
-                    temptiro.setVisible(false);
-                    tirosChefao.get(j).setVisivel(false);
-                }
-            }
-        }
-
         // Vidas spawnadas
 
         Rectangle formaPowerUpVida;
@@ -879,15 +614,6 @@ public class Fase extends JPanel implements ActionListener {
                 }
             }
 
-            if(player2.isVisible()) {
-                if (formaNave2.intersects(formaPowerUpVida)) {
-                    if (player2.getVida() < 5) {
-                        player2.setVida(player2.getVida() + 1);
-                        vidas.remove(i);
-                    }
-                    break;
-                }
-            }
         }
     }
 
@@ -905,6 +631,7 @@ public class Fase extends JPanel implements ActionListener {
                 }
 
             }
+
         });
         timer.start();
 
@@ -912,6 +639,7 @@ public class Fase extends JPanel implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 if (chefao.isHit() == true) {
                     chefao.setHit(false);
+
                 }
             }
 
@@ -939,15 +667,11 @@ public class Fase extends JPanel implements ActionListener {
         public void keyPressed(KeyEvent e) {
             if(player1.isVisible())
                 player1.keyPressed(e);
-            if(player2.isVisible())
-                player2.keyPressed(e);
-
         }
 
         @Override
         public void keyReleased(KeyEvent e) {
             player1.keyReleased(e);
-            player2.keyReleased(e);
         }
     }
 
