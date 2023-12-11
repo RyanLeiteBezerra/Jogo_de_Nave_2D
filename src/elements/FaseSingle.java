@@ -310,7 +310,7 @@ public class FaseSingle extends JPanel implements ActionListener {
         if(!player1.isVisible())
             emJogo = false;
 
-        if(emJogo) {
+        if(emJogo && !youWin) {
 
             ArrayList<Tiro> tiros = player1.getTiros();
 
@@ -389,7 +389,7 @@ public class FaseSingle extends JPanel implements ActionListener {
                         y.update();
                     } else {
                         explosoes.remove(q);
-                        //q--;
+                        q--;
                     }
                 }
             }
@@ -653,7 +653,7 @@ public class FaseSingle extends JPanel implements ActionListener {
         });
         timerChefao.start();
 
-        timerInimigos2  = new Timer(45000, new ActionListener() {
+        timerInimigos2  = new Timer(50000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 inicializarInimigos2();
             }

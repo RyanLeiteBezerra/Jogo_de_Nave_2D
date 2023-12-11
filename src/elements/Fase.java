@@ -329,7 +329,7 @@ public class Fase extends JPanel implements ActionListener {
         if(!player1.isVisible() && !player2.isVisible())
             emJogo = false;
 
-        if(emJogo) {
+        if(emJogo && !youWin) {
 
             ArrayList<Tiro> tiros = player1.getTiros();
             ArrayList<Tiro> tiros2 = player2.getTiros();
@@ -427,7 +427,7 @@ public class Fase extends JPanel implements ActionListener {
                         y.update();
                     } else {
                         explosoes.remove(q);
-                        //q--;
+                        q--;
                     }
                 }
             }
@@ -458,7 +458,6 @@ public class Fase extends JPanel implements ActionListener {
                         chefao.update(player2.getX(), player2.getY());
                         if (chefao.getTiroBoss().isEmpty()) {
                             chefao.tiroBoss();
-                            chefao.tiroBoss();
                         }
                     }
                 }
@@ -477,7 +476,6 @@ public class Fase extends JPanel implements ActionListener {
                     if (chefao.isVisivel()) {
                         chefao.update(player1.getX(), player1.getY());
                         if (chefao.getTiroBoss().isEmpty()) {
-                            chefao.tiroBoss();
                             chefao.tiroBoss();
                         }
                     }
