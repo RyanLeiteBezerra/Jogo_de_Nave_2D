@@ -1,13 +1,11 @@
-PLAYER 1
+<strong>PLAYER 1</strong>
 
-• Teclas de movimentação: W, A, S, D
+- Teclas de movimentação: W, A, S, D
+- Tecla de ação: Space
 
-• Tecla de ação: Space
+<strong>PLAYER 2</strong>
 
-PLAYER 2
-
-• Teclas de movimentação: UP, LEFT, DOWN, RIGHT
-
-• Tecla de ação: virgula
+- Teclas de movimentação: UP, LEFT, DOWN, RIGHT
+- Tecla de ação: virgula
 
 
