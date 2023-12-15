@@ -6,6 +6,6 @@
 <strong>PLAYER 2</strong>
 
 - Teclas de movimentação: UP, LEFT, DOWN, RIGHT
-- Tecla de ação: virgula
+- Tecla de ação: vírgula
 
 
