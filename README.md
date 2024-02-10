@@ -1,3 +1,4 @@
+# Controles
 <strong>PLAYER 1</strong>
 
 - Teclas de movimentação: W, A, S, D
