@@ -2,19 +2,19 @@
 
 
 ### Tela inicial
-![1](https://github.com/user-attachments/assets/5bec229d-b4d8-4de0-bf59-14dfead85a3c)
+![Desktop 2024-12-06 11-17-31 mp4 (0_00_03) 000010](https://github.com/user-attachments/assets/2f2f6993-1471-4fc6-9870-f1a774b0a92a)
 
 ### 1º Estágio
-![2](https://github.com/user-attachments/assets/8988fdba-2894-419f-a30d-58ae45751cb0)
+![Desktop 2024-12-06 11-17-31 mp4 (0_00_21) 000012](https://github.com/user-attachments/assets/1df892ff-9853-4ee5-a10e-80d0a3c36e28)
 
 ### 2º Estágio
-![3](https://github.com/user-attachments/assets/659241b3-cc5f-406a-a025-411dc3173345)
+![Desktop 2024-12-06 11-17-31 mp4 (0_00_57) 000013](https://github.com/user-attachments/assets/599b7117-40a4-4920-a0ca-dbeec51b64b4)
 
 ### Final Boss
-![4](https://github.com/user-attachments/assets/f30be781-79d1-4720-8465-f9d6772a5d88)
+![Desktop 2024-12-06 11-17-31 mp4 (0_03_09) 000014](https://github.com/user-attachments/assets/4bf3b4b1-f0f1-492b-9c55-7a7396fc41f3)
 
 ### Tela de vitória
-![5](https://github.com/user-attachments/assets/ddfda93d-5219-4926-a7c9-0b8b692f9a2a)
+![Desktop 2024-12-06 11-17-31 mp4 (0_03_19) 000015](https://github.com/user-attachments/assets/53e8bbb5-baac-490e-bf4c-6b116b2156c9)
 
 ### Tela de derrota
 ![6](https://github.com/user-attachments/assets/431ef4d6-d7be-4b6c-b49a-73e9fd3f49e7)
@@ -31,4 +31,4 @@
 - Tecla de ação: vírgula
 
 ### Gameplay Vídeo:
-
+https://github.com/user-attachments/assets/761fab86-7124-4877-a0c1-3856bddb4dd0
